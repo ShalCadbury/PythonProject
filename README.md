@@ -14,3 +14,7 @@ Steps to launch the application on local terminal
 2) Run the command "streamlit run app.py"
 3) a browser should open on the localhost on a port rendering the application.
 4) select the user inputs on the navigation panel and the data displayed should be dynamically updated as and when the changes are made.
+
+
+
+Note :  To view the application on Render do not use the URL (http://0.0.0.0:10000/) after its built and deployed to Render ,   instead use (https://pythonproject-jt6j.onrender.com/)
