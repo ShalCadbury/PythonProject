@@ -3,9 +3,7 @@ import streamlit as st
 import plotly.express as plt
 import numpy as np
 
-
-df = pd.read_csv(r"C:\Users\stanf\Documents\GitHub\PythonProject\vehicles_us.csv",parse_dates=['date_posted'], date_format='%Y-%m-%d')
-#df = pd.read_csv("\\vehicles_us.csv",parse_dates=['date_posted'], date_format='%Y-%m-%d')
+df = pd.read_csv(".//vehicles_us.csv",parse_dates=['date_posted'], date_format='%Y-%m-%d')
 df['model_year']=df['model_year'].astype('Int64')
 df['odometer']=df['odometer'].astype('Int64')
 df['odometer']=df['odometer'].fillna(0)
@@ -25,7 +23,7 @@ years = year_series.sort_values(ascending=False).unique()
 clean_arr = years[~np.isnan(years)]
 cleaned_year_list = clean_arr.tolist()
 
-st.sidebar.header('User Input Features')
+st.sidebar.header('Filter Options:')
 selected_year = st.sidebar.selectbox('Year', cleaned_year_list)
 
 
