@@ -1,5 +1,4 @@
 # PythonProjects
-PythonProject
 This Tool is used to  read and display the used vehicles information onto the online application.
 It also renders vehicles information based on the filter as and when the input criteria is selected by the user.
 The page also has the checkboxes to select the option of displaying the historgram and scatter plot for the dataframe
