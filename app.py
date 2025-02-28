@@ -80,20 +80,24 @@ else:
     st.write("No Data Retrieved")
     
     
-disp_graph = st.checkbox("Select Checkbox to display Vehicle  color count graph:")
+disp_graph = st.checkbox("Select Checkbox to display Vehicle  color count graph using filtered data:")
 #st.write("Vehicles available in Year by Color:: ")
 df_counts = selected_result_df.groupby('paint_color').agg(vehicles_available = ('model_year','count')).reset_index()
 #st.write(df_counts)
 
 if disp_graph:
     fig = plt.histogram(df_counts, x='paint_color', y='vehicles_available', title='Vehicle (colors) available for selected criteria',nbins=10, width=1200, height=800)
+    fig.update_layout(
+    xaxis_title_text = 'Vehicle Color', 
+    yaxis_title_text = 'Available count'
+    )
     st.plotly_chart(fig, use_container_width=True)
 else:
     st.write("")
 
 
 
-disp_scat_plot_graph = st.checkbox("Select Checkbox to display Scatter plot graph  Price vs Odometer:")
+disp_scat_plot_graph = st.checkbox("Select Checkbox to display Scatter plot graph using base data Price vs Odometer:")
 
 if disp_scat_plot_graph:
     # Create the scatter plot using Plotly Express
