@@ -21,11 +21,11 @@ df['model_year'] = df['model_year'].fillna(df.groupby('model')['model_year'].tra
 #df['model_year'] = df.groupby(['model'])['model_year'].transform(lambda x: x.fillna(x.median()))
 
 
-# Fill NAN values for odometer with  median of odometer when grouped by model & condition
-df['odometer'] = df['odometer'].fillna(df.groupby(['model','condition'])['odometer'].transform('median'))
+# Fill NAN values for odometer with  median of odometer when grouped by condition
+df['odometer'] = df['odometer'].fillna(df.groupby(['condition'])['odometer'].transform('median'))
 
-# Fill NAN values for cylinders with  median of cylinders when grouped by model & type
-df['cylinders'] = df['cylinders'].fillna(df.groupby(['model','type'])['cylinders'].transform('median'))
+# Fill NAN values for cylinders with  median of cylinders when grouped by type
+df['cylinders'] = df['cylinders'].fillna(df.groupby(['type'])['cylinders'].transform('median'))
 
 
 
