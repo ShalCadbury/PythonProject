@@ -3,14 +3,36 @@ import streamlit as st
 import plotly.express as plt
 import numpy as np
 
-df = pd.read_csv(".//vehicles_us.csv",parse_dates=['date_posted'], date_format='%Y-%m-%d')
-df['model_year']=df['model_year'].astype('Int64')
-df['odometer']=df['odometer'].astype('Int64')
-df['odometer']=df['odometer'].fillna(0)
-df_head =  df.head(10)
+df = pd.read_csv("vehicles_us.csv",parse_dates=['date_posted'], date_format='%Y-%m-%d')
+#df['model_year']=df['model_year'].astype('Int64')
+#df['odometer']=df['odometer'].astype('Int64')
+#df['odometer']=df['odometer'].fillna(0)
+
+print(df.info())
+
+# Fill NAN values for is_4wd with 0
+df['is_4wd']=df['is_4wd'].fillna(0)
+
+# Fill NAN values for paint_color with 0
+df['paint_color']=df['paint_color'].fillna('Unknown')
+
+# Fill NAN values for model_year with  median of model_year for that model
+df['model_year'] = df['model_year'].fillna(df.groupby('model')['model_year'].transform('median'))
+#df['model_year'] = df.groupby(['model'])['model_year'].transform(lambda x: x.fillna(x.median()))
+
+
+# Fill NAN values for odometer with  median of odometer when grouped by model & condition
+df['odometer'] = df['odometer'].fillna(df.groupby(['model','condition'])['odometer'].transform('median'))
+
+# Fill NAN values for cylinders with  median of cylinders when grouped by model & type
+df['cylinders'] = df['cylinders'].fillna(df.groupby(['model','type'])['cylinders'].transform('median'))
+
+
+
+#df_head =  df.head(10)
 #display(df_head)
 #display(df.columns)
-#display(df.info())
+print(df.info())
 #display(df.describe())
 
 df_counts = df.groupby('model_year').agg(vehicles_available = ('type','count')).reset_index()
@@ -71,12 +93,12 @@ else:
 
 
 
-disp_scat_plot_graph = st.checkbox("Select Checkbox to display Scatter plot graph:")
+disp_scat_plot_graph = st.checkbox("Select Checkbox to display Scatter plot graph  Price vs Odometer:")
 
 if disp_scat_plot_graph:
     # Create the scatter plot using Plotly Express
-    fig = plt.scatter(df_counts, x='paint_color', y='vehicles_available',
-                 title='Vehicle Color conts Scatter Plot')
+    fig = plt.scatter(df, x='price', y='odometer',
+                 title='Vehicle Price vs Odometer Scatter Plot')
     # Display the plot in Streamlit
     st.plotly_chart(fig)
 else:
