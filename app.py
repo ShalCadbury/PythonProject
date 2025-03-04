@@ -107,3 +107,20 @@ if disp_scat_plot_graph:
     st.plotly_chart(fig)
 else:
     st.write("")
+    
+    
+## Data Visualization
+# This Box plot gives an idean of the median prices , upper quartile and lower quartile prices per each make of the car
+st.write("Box plot of Price vs Type:")
+
+disp_box_plot_graph = st.checkbox("Select Checkbox to display box plot graph using base data Price vs Vehicle Type:")
+
+if disp_box_plot_graph:
+
+    box_plt = plt.box(df, x='price', y='type', color_discrete_sequence=plt.colors.qualitative.Plotly,
+                 title='Vehicle Price distribution by type')
+    st.plotly_chart(box_plt)
+    #box_plt.show()
+
+# Display the plot in Streamlit
+##st.plotly_chart(box_plt)
