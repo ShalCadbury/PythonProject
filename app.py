@@ -97,6 +97,10 @@ else:
 
 
 
+## Data Visualization
+#This Scatter  plot show the price vs Odometer values graph
+#st.write("Scatter plot of Price vs Odometer:")
+
 disp_scat_plot_graph = st.checkbox("Select Checkbox to display Scatter plot graph using base data Price vs Odometer:")
 
 if disp_scat_plot_graph:
@@ -111,8 +115,6 @@ else:
     
 ## Data Visualization
 # This Box plot gives an idean of the median prices , upper quartile and lower quartile prices per each make of the car
-st.write("Box plot of Price vs Type:")
-
 disp_box_plot_graph = st.checkbox("Select Checkbox to display box plot graph using base data Price vs Vehicle Type:")
 
 if disp_box_plot_graph:
