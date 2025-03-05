@@ -27,6 +27,8 @@ df['odometer'] = df['odometer'].fillna(df.groupby(['condition'])['odometer'].tra
 # Fill NAN values for cylinders with  median of cylinders when grouped by type
 df['cylinders'] = df['cylinders'].fillna(df.groupby(['type'])['cylinders'].transform('median'))
 
+# Splitting Model column into Make and Model_Series  columns
+df[['make', 'model_series']] = df['model'].str.split(' ', n=1, expand=True).fillna('')
 
 
 #df_head =  df.head(10)
@@ -98,31 +100,40 @@ else:
 
 
 ## Data Visualization
-#This Scatter  plot show the price vs Odometer values graph
+#This Scatter  plot show the price vs Odometer value for a given make (RAM) of the car
 #st.write("Scatter plot of Price vs Odometer:")
 
-disp_scat_plot_graph = st.checkbox("Select Checkbox to display Scatter plot graph using base data Price vs Odometer:")
+disp_scat_plot_graph = st.checkbox("Select Checkbox to display Scatter plot graph Price vs Odometer for vehicle brand RAM ")
 
 if disp_scat_plot_graph:
     # Create the scatter plot using Plotly Express
-    fig = plt.scatter(df, x='price', y='odometer',
+    subset = df[df['make'] == 'ram']
+    #fig = plt.scatter(subset, x='price', y='odometer',
+    #             title='Vehicle Price vs Odometer Scatter Plot')
+    scatter_plt = plt.scatter(subset, y='price', x='odometer', color='make', color_discrete_sequence=plt.colors.qualitative.Plotly,
                  title='Vehicle Price vs Odometer Scatter Plot')
+
     # Display the plot in Streamlit
-    st.plotly_chart(fig)
+    st.plotly_chart(scatter_plt)
+    
+    ## Data Visualization
+    
 else:
     st.write("")
     
     
 ## Data Visualization
-# This Box plot gives an idean of the median prices , upper quartile and lower quartile prices per each make of the car
+# This Box plot gives an idea of the median prices comparison of prices between pickup trucks for ford, toyota & chevrolet
+#st.write("Box plot of Price vs type:")
 disp_box_plot_graph = st.checkbox("Select Checkbox to display box plot graph using base data Price vs Vehicle Type:")
 
 if disp_box_plot_graph:
 
-    box_plt = plt.box(df, x='price', y='type', color_discrete_sequence=plt.colors.qualitative.Plotly,
-                 title='Vehicle Price distribution by type')
+
+    makes = ['ford', 'toyota', 'chevrolet']
+    subset = df[(df['make'].isin(makes)) & (df['type'] == 'pickup')]
+    box_plt = plt.box(subset, x='price', y='make', title='Vehicle Price distribution for pickup trucks ( ford , toyota & chevrolet )')
+    #box_plt = plt.box(df, x='price', y='type', color_discrete_sequence=plt.colors.qualitative.Plotly,
+    #             title='Vehicle Price distribution by type')
     st.plotly_chart(box_plt)
     #box_plt.show()
-
-# Display the plot in Streamlit
-##st.plotly_chart(box_plt)
